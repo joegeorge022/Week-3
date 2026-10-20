@@ -1,0 +1,25 @@
+# SlothClaw: Render Blueprint Specification
+# Category: Best Use of Render ($200 Prize)
+# Runs the full SlothClaw open-weight AI agent harness & web app on Render Web Services.
+
+services:
+  - type: web
+    name: slothclaw
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: GEMMA_MODEL
+        value: gemma2:2b
+      - key: SLOTH_FACTOR
+        value: "1.0"
+      - key: ELEVENLABS_API_KEY
+        sync: false # Set in Render Dashboard for ElevenLabs voice narration

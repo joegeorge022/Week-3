@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlothClaw 🦥 | Slow & Steady Autonomous AI Agent</title>
+  <meta name="description" content="Channel your inner sloth. Open-weight Gemma-powered local agent for radical laziness, automated midnight chat summaries, file decluttering, diplomatic auto-replies, and offline sleep soundscapes.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2228%22>🦥</text></svg>">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Hero Header with Animated Barnaby the Sloth -->
+    <header class="hero-header">
+      <div class="brand-wrapper">
+        <div class="mascot-box" title="Barnaby: Resident Sloth & Chief Procrastination Officer">
+          <svg class="sloth-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Branch -->
+            <path d="M5 80 Q 50 70 95 80" stroke="#78350f" stroke-width="8" stroke-linecap="round"/>
+            <path d="M30 75 Q 45 65 60 75" stroke="#92400e" stroke-width="4" stroke-linecap="round"/>
+            <!-- Hanging Sloth Body -->
+            <ellipse cx="50" cy="52" rx="26" ry="20" fill="#a16207" />
+            <!-- Face mask -->
+            <ellipse cx="50" cy="46" rx="19" ry="14" fill="#fef3c7" />
+            <path d="M38 43 Q 41 46 45 44" stroke="#451a03" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M55 44 Q 59 46 62 43" stroke="#451a03" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <!-- Sleeping eyes -->
+            <ellipse cx="43" cy="45" rx="1.5" ry="1.5" fill="#1c1917"/>
+            <ellipse cx="57" cy="45" rx="1.5" ry="1.5" fill="#1c1917"/>
+            <!-- Gentle smile -->
+            <path d="M47 51 Q 50 54 53 51" stroke="#451a03" stroke-width="2" stroke-linecap="round"/>
+            <!-- Cute Nose -->
+            <polygon points="48,47 52,47 50,50" fill="#451a03"/>
+            <!-- Claws hooked to branch -->
+            <path d="M30 45 Q 26 62 33 76" stroke="#a16207" stroke-width="7" stroke-linecap="round"/>
+            <path d="M70 45 Q 74 62 67 76" stroke="#a16207" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="32" cy="76" r="2.5" fill="#e2e8f0"/>
+            <circle cx="68" cy="76" r="2.5" fill="#e2e8f0"/>
+            <!-- Tiny Nightcap -->
+            <path d="M42 34 Q 50 20 62 28 Z" fill="#10b981"/>
+            <circle cx="63" cy="27" r="3.5" fill="#fbbf24"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>
+            SlothClaw
+            <span class="badge-tag">Gemma 2 Open-Weight</span>
+          </h1>
+          <p class="brand-subtitle">The Autonomous Couch-Potato AI Agent for Radical Laziness</p>
+          <p class="slothPhilosophy">"Slow and steady wins the race. Why burn cloud tokens when an offline sloth model can do it while you nap?"</p>
+        </div>
+      </div>
+
+      <div class="system-status-pills">
+        <div class="status-pill" id="ollama-status-badge">
+          <span class="indicator-dot" id="ollama-dot"></span>
+          <span id="ollama-status-text">Detecting Local Model...</span>
+        </div>
+        <div class="status-pill">
+          <span>🔒 Privacy: 100% On-Device</span>
+        </div>
+        <div class="status-pill">
+          <span>🌿 Hacktoberfest 2026: Week 3</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top Lazy Stats Ribbon -->
+    <section class="stat-ribbon">
+      <div class="stat-card">
+        <div class="stat-label">🔋 Metabolic Joules Conserved</div>
+        <div class="stat-val highlight" id="stat-joules">42.5 kJ</div>
+        <div class="stat-sub">Physical & cognitive burn spared</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">💵 Cloud Cost Defeated</div>
+        <div class="stat-val" id="stat-cost">$0.0000</div>
+        <div class="stat-sub">100% free open-weight execution</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">🛌 Procrastination Time Gained</div>
+        <div class="stat-val amber" id="stat-minutes">65 min</div>
+        <div class="stat-sub">Sleep, naps & guilt-free loafing</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">🦥 Sloth Speed Index</div>
+        <div class="stat-val" id="stat-speed">0.15 mph</div>
+        <div class="stat-sub">Carefully unhurried efficiency</div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav" role="tablist">
+      <button class="tab-btn active" data-tab="tab-chat" id="btn-tab-chat">🌅 Morning Chat Condenser</button>
+      <button class="tab-btn" data-tab="tab-files" id="btn-tab-files">🗂️ Graveyard Janitor</button>
+      <button class="tab-btn" data-tab="tab-reply" id="btn-tab-reply">💬 Lazy Diplomat</button>
+      <button class="tab-btn" data-tab="tab-story" id="btn-tab-story">🌙 Bedtime Soundscape</button>
+      <button class="tab-btn special-autopilot" data-tab="tab-autopilot" id="btn-tab-autopilot">⚡ 1-Click Total Autopilot</button>
+      <button class="tab-btn" data-tab="tab-traces" id="btn-tab-traces">📡 Agent Traces & Telemetry</button>
+    </nav>
+
+    <!-- TAB 1: Chat Condenser -->
+    <section class="module-panel active" id="tab-chat">
+      <div class="panel-grid">
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">📥 Unread Midnight Chat Graveyard</div>
+            <div class="preset-selector">
+              <span>Preset:</span>
+              <select id="chat-preset">
+                <option value="devops">Staging Deploy Flame-War (50 msgs)</option>
+                <option value="roommates">Passive-Aggressive Kitchen Drama</option>
+                <option value="weekend">Chaotic Weekend Vacation Planning</option>
+              </select>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+            Sloths sleep 15 hours a day. Paste or load chaotic group chats and let local Gemma extract what matters so you don't read 400 messages.
+          </p>
+          <textarea id="chat-input" placeholder="Paste your massive WhatsApp / Slack / Discord chat log here..."></textarea>
+          <button class="btn-primary" id="btn-run-chat">
+            <span>🦥 Condense Chat at Sloth Pace</span>
+          </button>
+        </div>
+
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">☕ Executive Morning Sloth Digest</div>
+            <button class="btn-secondary" id="btn-copy-chat" style="display: none;">Copy Summary</button>
+          </div>
+          <div class="result-card" id="chat-output">
+            <div class="result-empty">
+              <span style="font-size: 2.2rem;">😴</span>
+              <p>Barnaby is resting. Click "Condense Chat" to awaken the agent.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: File Graveyard Janitor -->
+    <section class="module-panel" id="tab-files">
+      <div class="panel-grid">
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">📂 Downloads & Desktop Chaos</div>
+            <div class="preset-selector">
+              <span>Preset:</span>
+              <select id="files-preset">
+                <option value="messy_downloads">Messy Developer Downloads (8 files)</option>
+                <option value="tax_receipts">Unsorted Tax Receipts & Bills</option>
+                <option value="screenshots">50 Stray Desktop Screenshots</option>
+              </select>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+            Private files stay 100% on your machine. Local Gemma categorizes, renames to clean snake_case, and identifies junk to delete.
+          </p>
+          <textarea id="files-input" placeholder="List filenames, one per line..."></textarea>
+          <button class="btn-primary" id="btn-run-files">
+            <span>🧹 Triage File Graveyard</span>
+          </button>
+        </div>
+
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">✨ Curated Directory Taxonomy</div>
+          </div>
+          <div class="result-card" id="files-output">
+            <div class="result-empty">
+              <span style="font-size: 2.2rem;">📁</span>
+              <p>Feed the sloth your messy file names to tidy your digital nest.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Lazy Diplomat -->
+    <section class="module-panel" id="tab-reply">
+      <div class="panel-grid">
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">📩 Demanding Incoming Message</div>
+            <div class="preset-selector">
+              <span>Tone:</span>
+              <select id="reply-tone">
+                <option value="diplomatic_sloth">Diplomatic Sloth (Warmly Defers)</option>
+                <option value="corporate_mve">Corporate Minimum Viable Effort</option>
+                <option value="zen_minimalist">Zen Minimalist (1 Sentence)</option>
+                <option value="sloth_honesty">Sloth Honesty (Slow & Steady Boundary)</option>
+              </select>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+            Generate frictionless, tactful responses that politely close threads so you don't get trapped in more work.
+          </p>
+          <textarea id="reply-input" placeholder="Paste incoming email, Slack DM, or request..."></textarea>
+          <button class="btn-primary" id="btn-run-reply">
+            <span>🕊️ Generate Zero-Effort Reply</span>
+          </button>
+        </div>
+
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">💌 Ready-to-Send Lazy Reply</div>
+            <button class="btn-secondary" id="btn-copy-reply" style="display: none;">Copy to Clipboard</button>
+          </div>
+          <div class="result-card" id="reply-output">
+            <div class="result-empty">
+              <span style="font-size: 2.2rem;">🍵</span>
+              <p>Paste a message to generate your polite escape hatch.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Somnolent Bedtime Companion & Soundscape -->
+    <section class="module-panel" id="tab-story">
+      <div class="panel-grid">
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">🌙 Sleep Induction Engine</div>
+            <div class="preset-selector">
+              <span>Setting:</span>
+              <select id="story-theme">
+                <option value="mossy_forest_canopy">Monteverde Cloud Forest Canopy</option>
+                <option value="celestial_drift">Deep Indigo Cosmic Drift</option>
+                <option value="rainy_attic_library">Rainy Attic Cedar Library</option>
+                <option value="sunlit_riverbank">Sunlit Riverbank Willow Shade</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Offline Procedural Soundscape Player -->
+          <div class="soundscape-player" style="margin-bottom: 16px;">
+            <div class="player-controls">
+              <button class="soundscape-btn" id="btn-soundscape-toggle">
+                <span>🔊 Play Offline Sleep Drone</span>
+              </button>
+              <div class="waveform-viz" id="waveform">
+                <div class="waveform-bar"></div>
+                <div class="waveform-bar"></div>
+                <div class="waveform-bar"></div>
+                <div class="waveform-bar"></div>
+                <div class="waveform-bar"></div>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">
+              <span>Procedural Brown Noise + Patter (Web Audio API)</span>
+              <label style="display: flex; align-items: center; gap: 8px;">
+                Volume:
+                <input type="range" id="soundscape-vol" min="0" max="1" step="0.05" value="0.3" style="width: 80px;">
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-primary" id="btn-run-story">
+            <span>📖 Generate Offline Gemma Bedtime Tale</span>
+          </button>
+        </div>
+
+        <div class="glass-box">
+          <div class="glass-box-header">
+            <div class="glass-box-title">🌌 Bedtime Story & Sloth Voice</div>
+            <button class="btn-secondary" id="btn-read-aloud" style="display: none;">🎙️ Sloth Voice (ElevenLabs / WebSpeech)</button>
+          </div>
+          <div class="result-card" id="story-output">
+            <div class="result-empty">
+              <span style="font-size: 2.2rem;">✨</span>
+              <p>Relax your shoulders. Generate a soothing bedtime story to drift into sleep.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: 1-Click Total Autopilot -->
+    <section class="module-panel" id="tab-autopilot">
+      <div class="glass-box">
+        <div class="glass-box-header">
+          <div class="glass-box-title">⚡ The Radical Sloth Morning Routine (1-Click)</div>
+          <span class="badge-tag">Full Autopilot</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+          Too tired to click four separate buttons? Press one button. Local Gemma will digest your overnight chats, triage your desktop clutter, draft a safe diplomatic response to your demanding boss, and prime your bedtime story for tonight.
+        </p>
+
+        <button class="btn-primary" id="btn-run-autopilot" style="font-size: 1.1rem; padding: 16px 32px; width: fit-content; margin-bottom: 24px;">
+          <span>🦥 Engage Maximum Laziness (Run All)</span>
+        </button>
+
+        <div id="autopilot-progress" style="display: none; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+            <span id="autopilot-status-label">Barnaby is inching along at 0.15 mph...</span>
+            <span id="autopilot-percent">0%</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.4); border-radius: 10px; height: 10px; overflow: hidden; border: 1px solid var(--border-subtle);">
+            <div id="autopilot-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--emerald-primary), var(--amber-warm)); transition: width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <div class="result-card" id="autopilot-output" style="max-height: 500px; display: none;"></div>
+      </div>
+    </section>
+
+    <!-- TAB 6: Sentry Traces & Telemetry -->
+    <section class="module-panel" id="tab-traces">
+      <div class="glass-box">
+        <div class="glass-box-header">
+          <div class="glass-box-title">📡 Sentry Agent Traces & Open-Weight Telemetry</div>
+          <button class="btn-secondary" id="btn-refresh-traces">Refresh Traces</button>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
+          Track token efficiency, latency, Joules conserved, and cloud dollar savings for every local agent operation. Sentry Agent Tracing compliant telemetry.
+        </p>
+        <div class="trace-feed" id="trace-feed-list">
+          <div style="color: var(--text-dim); text-align: center; padding: 30px;">No agent operations logged yet. Run any module to inspect real-time traces.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Crafted with deliberate slowness for <strong>Hacktoberfest Open-Source AI Challenge: Week 3 ("Slow and Steady")</strong>
+        <br>
+        Powered by <strong>Google Gemma</strong> (Open-Weight), <strong>Render</strong>, <strong>ElevenLabs</strong>, & <strong>Sentry Agent Tracing</strong>.
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="soundscape.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
